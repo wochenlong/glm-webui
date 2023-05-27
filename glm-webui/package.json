@@ -1,0 +1,29 @@
+{
+  "name": "koishi-plugin-glm-webui",
+  "description": "可视化的chatglm网页对话界面",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build:console": "koishi-console build"
+  },
+  "keywords": [
+    "chatbot",
+    "koishi",
+    "plugin"
+  ],
+  "peerDependencies": {
+    "koishi": "4.13.0"
+  },
+  "devDependencies": {
+    "@koishijs/client": "^5.10.0"
+  },
+  "dependencies": {
+    "@koishijs/plugin-console": "^5.10.0"
+  }
+}
