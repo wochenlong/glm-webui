@@ -19,10 +19,11 @@
       </div>
     </div>
     <div class="buttons">
+      <button @click="clearMessages">D</button>
+      <button @click="changeFontColor">A</button>
       <button @click="increaseFontSize">+</button>
       <button @click="decreaseFontSize">-</button>
-      <button @click="changeFontColor">A</button>
-      <button @click="clearMessages">D</button>
+
       <!-- 添加清理聊天记录按钮 -->
     </div>
   </div>
@@ -81,11 +82,12 @@ export default {
   height: 100vh;
   background-size: cover;
   position: relative;
+  width: 100%;
 }
 .dialog {
-  width: 100%;
-  max-width: 400px;
-  max-height: 500px;
+  width: 150%;
+  max-width: 800px;
+  max-height: 1000px;
   border: 1px solid #ccc;
   overflow-y: scroll;
   padding: 10px;
@@ -94,7 +96,7 @@ export default {
 }
 @media (min-width: 768px) {
   .dialog {
-    width: 400px;
+    width: 100%; /* 在屏幕宽度大于等于768px时，将宽度设置为100% */
     height: 500px;
   }
 }
@@ -111,7 +113,16 @@ export default {
   margin-left: 5px;
 }
 .input {
-  margin-top: 10px;
+  margin-top: 20px;
+  width: 100%; /* 将输入框的宽度设置为100% */
+}
+.input {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.input button:hover {
+  background-color: #0062cc;
 }
 .buttons {
   position: absolute;
