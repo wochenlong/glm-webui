@@ -23,7 +23,6 @@
       <button @click="changeFontColor">A</button>
       <button @click="increaseFontSize">+</button>
       <button @click="decreaseFontSize">-</button>
-      <!-- 添加清理聊天记录按钮 -->
     </div>
   </div>
 </template>
@@ -47,23 +46,25 @@ export default {
     sendMessage() {
       if (this.newMessage.trim() !== "") {
         let messageContent = this.newMessage;
-        if (messageContent === "每日一句") {
-          axios
-            .get("https://v.api.aa1.cn/api/yiyan/index.php")
-            .then((response) => {
-              let dailySentence = response.data.replace(/<\/?p>/g, "");
-              this.messages.push({
-                username: "ChatGlm",
-                content: dailySentence,
-              });
+        this.messages.push({
+          username:
+            this.username.trim() === "" ? "匿名用户" : this.username.trim(),
+          content: messageContent,
+        });
+        axios
+          .get("https://api.chat.t4wefan.pub/chatglm", {
+            params: {
+              msg: messageContent,
+              usrid: "12345",
+              source: "glmwebui",
+            },
+          })
+          .then((response) => {
+            this.messages.push({
+              username: "ChatGlm",
+              content: response.data,
             });
-        } else {
-          this.messages.push({
-            username:
-              this.username.trim() === "" ? "匿名用户" : this.username.trim(),
-            content: messageContent,
           });
-        }
         this.newMessage = "";
 
         // 将新消息滚动到底部
@@ -101,7 +102,6 @@ export default {
   },
 };
 </script>
-
 <style>
 .container {
   display: flex;
