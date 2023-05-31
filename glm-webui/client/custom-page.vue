@@ -52,11 +52,9 @@ export default {
           content: messageContent,
         });
         axios
-          .get("https://api.chat.t4wefan.pub/chatglm", {
+          .get("https://v.api.aa1.cn/api/api-xiaoai/talk.php", {
             params: {
               msg: messageContent,
-              usrid: "12345",
-              source: "glmwebui",
             },
           })
           .then((response) => {
