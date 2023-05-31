@@ -23,13 +23,14 @@
       <button @click="changeFontColor">A</button>
       <button @click="increaseFontSize">+</button>
       <button @click="decreaseFontSize">-</button>
-
       <!-- 添加清理聊天记录按钮 -->
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -41,33 +42,61 @@ export default {
       fontColor: "white",
     };
   },
+
   methods: {
     sendMessage() {
       if (this.newMessage.trim() !== "") {
-        this.messages.push({
-          username:
-            this.username.trim() === "" ? "匿名用户" : this.username.trim(),
-          content: this.newMessage,
-        });
+        let messageContent = this.newMessage;
+        if (messageContent === "每日一句") {
+          axios
+            .get("https://v.api.aa1.cn/api/yiyan/index.php")
+            .then((response) => {
+              let dailySentence = response.data.replace(/<\/?p>/g, "");
+              this.messages.push({
+                username: "ChatGlm",
+                content: dailySentence,
+              });
+            });
+        } else {
+          this.messages.push({
+            username:
+              this.username.trim() === "" ? "匿名用户" : this.username.trim(),
+            content: messageContent,
+          });
+        }
         this.newMessage = "";
+
+        // 将新消息滚动到底部
+        this.$nextTick(() => {
+          let messageList = this.$el.querySelector(".message-list");
+          messageList.scrollTop = messageList.scrollHeight;
+        });
       }
     },
+
     increaseFontSize() {
       this.fontSize++;
     },
+
     decreaseFontSize() {
       this.fontSize--;
     },
+
     changeFontColor() {
       this.fontColor = this.fontColor === "white" ? "black" : "white";
     },
+
     clearMessages() {
       this.messages = [];
-    }, // 添加清理聊天记录函数
+    },
   },
+
   computed: {
     inputStyle() {
-      return { fontSize: `${this.fontSize}px`, color: this.fontColor };
+      return {
+        fontSize: `${this.fontSize}px`,
+        color: this.fontColor,
+      };
     },
   },
 };
